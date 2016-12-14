@@ -1,0 +1,31 @@
+{
+    "description": "This packer file builds a base centos VM",
+	
+    "variables": {
+    },	
+	
+	"builders": [
+		{
+		  "boot_command": [
+		    "<wait><esc><esc>",
+		    "linux ks=https://raw.githubusercontent.com/brodrigues-oss/kickstart/master/centos/6.8/x86_64/ks.cfg<enter>"
+		  ],
+		  "communicator": "ssh",
+		  "guest_additions_mode": "attach",
+		  "guest_os_type": "RedHat_64",
+		  "iso_checksum": "0ca12fe5f28c2ceed4f4084b41ff8a0b",
+		  "iso_checksum_type": "md5",
+		  "iso_url" : "file:///Users/boscor/ISO's/CentOS-6.8-x86_64-minimal.iso",
+		  "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+		  "ssh_password": "vagrant",
+		  "ssh_username": "vagrant",
+		  "type": "virtualbox-iso"
+		}
+	],
+	
+	"post-processors": ["vagrant"],
+  
+	"provisioners": [  ],
+	
+	
+}
