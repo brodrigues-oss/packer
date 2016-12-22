@@ -23,9 +23,5 @@
 		}
 	],
 	
-	"post-processors": ["vagrant"],
-  
-	"provisioners": [  ],
-	
-	
+	"post-processors": ["vagrant"]
 }
