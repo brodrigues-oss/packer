@@ -1,9 +1,18 @@
 {
     "description": "This packer file builds a base centos VM",
 	
+	"variables": {
+	    "prefix": "",
+	    "vm_name": "no_vm_name_set",
+		"box_dir" : "{{env `Vagrant_Box_Dir`}}",
+		"iso_url" : ""
+ 	  },
+	
+	
 	"builders": [
 		{
 		"type": "virtualbox-iso",
+		"vm_name" : "{{user `prefix`}}{{user `vm_name`}}",
 		"headless" : "false",	
 		"boot_command": [
 				"<wait><esc><esc>",
@@ -15,13 +24,13 @@
 		"disk_size": "10240",
 		"iso_checksum": "0ca12fe5f28c2ceed4f4084b41ff8a0b",
 		"iso_checksum_type": "md5",
-		"iso_url" : "file:///Users/boscor/ISO's/CentOS-6.8-x86_64-minimal.iso",
-		"http_directory" : "/Users/boscor/tmp",
+		"iso_url" : "{{user `iso_url`}}",
+		"http_directory" : "/tmp",
 		"http_port_min" : 9001,
 		"http_port_max" : 9001,
 		"ssh_password": "vagrant",
 		"ssh_username": "vagrant",
-		"ssh_wait_timeout": "45m",
+		"ssh_wait_timeout": "30m",
 		"shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
 		}
 	],
@@ -29,6 +38,8 @@
 	"post-processors": [
 		{
 		   "type": "vagrant",
+		   "compression_level" : 9,
+		   "output" : "{{user `box_dir`}}/{{.Provider}}/{{user `vm_name`}}-{{isotime \"2006-01-02\"}}.box",
 		   "only": ["virtualbox-iso"]
 		}
 	]
